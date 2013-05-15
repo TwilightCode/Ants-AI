@@ -1,3 +1,2 @@
-Ants-AI
-=======
-Luotu tyhjä testi versio readme
+﻿Ants-AI
+=======[Määrittelydokumentti](Määrittelydokumentti.pdf)
