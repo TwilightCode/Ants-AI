@@ -21,8 +21,7 @@ public class MyBot extends Bot {
 	}
 
 	/**
-	 * This method has been modified Method checks valid directions, and gives
-	 * each ant valid direction to move.
+	 * executes bots turn   
 	 */
 	@Override
 	public void doTurn() {
@@ -42,9 +41,13 @@ public class MyBot extends Bot {
 	}
 
 	/**
-	 * This method is new Method checks all possible directions and returns
-	 * arraylist containing all valid directions
+	 * checks the directions in which ant can move.
+	 * 
+	 * @param ants contains the tools from the game.
+	 * @param myAnt contains the coordinates of the tile that's surroundings are to be evaluated.
+	 * @return table contains all the directions that the ant can move to.  
 	 */
+	
 	private ArrayList<Aim> movement(Ants ants, Tile myAnt) {
 		ArrayList<Aim> table = new ArrayList<Aim>();
 		if (ants.getIlk(myAnt, Aim.NORTH).isPassable()) {
@@ -63,8 +66,10 @@ public class MyBot extends Bot {
 	}
 
 	/**
-	 * This method is new Method picks random direction from the given arraylist
-	 * and returns it.
+	 *Picks a random direction
+	 *
+	 *@param table contains the directions from which one is to be chosen.
+	 *@return direction random direction chosen from the given table.  
 	 */
 
 	private Aim getRandomDirection(ArrayList<Aim> table) {
