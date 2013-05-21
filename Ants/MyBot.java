@@ -50,16 +50,16 @@ public class MyBot extends Bot {
 	
 	private ArrayList<Aim> movement(Ants ants, Tile myAnt) {
 		ArrayList<Aim> table = new ArrayList<Aim>();
-		if (ants.getIlk(myAnt, Aim.NORTH).isPassable()) {
+		if (ants.getIlk(myAnt, Aim.NORTH).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
 			table.add(Aim.NORTH);
 		}
-		if (ants.getIlk(myAnt, Aim.EAST).isPassable()) {
+		if (ants.getIlk(myAnt, Aim.EAST).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
 			table.add(Aim.EAST);
 		}
-		if (ants.getIlk(myAnt, Aim.SOUTH).isPassable()) {
+		if (ants.getIlk(myAnt, Aim.SOUTH).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
 			table.add(Aim.SOUTH);
 		}
-		if (ants.getIlk(myAnt, Aim.WEST).isPassable()) {
+		if (ants.getIlk(myAnt, Aim.WEST).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
 			table.add(Aim.WEST);
 		}
 		return table;
