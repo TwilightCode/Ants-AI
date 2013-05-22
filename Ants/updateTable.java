@@ -6,28 +6,39 @@ public class updateTable {
 
 	/**
 	 * 
-	 * @return updateTable contains locations of all the tiles that need to be
-	 *         updated when ants moves in a relation to the current ants
-	 *         standing point.
+	 * @return NorthTable contains locations of all the tiles that need to be
+	 *         updated when ants moves to the North
 	 */
 	public int[][] getNorthTable() {
 		return NorthTable;
 	}
-
+	/**
+	 * 
+	 * @return SouthTable contains locations of all the tiles that need to be
+	 *         updated when ants moves to the South
+	 */
 	public int[][] getSouthTable() {
 		return SouthTable;
 	}
-
+	/**
+	 * 
+	 * @return EastTable contains locations of all the tiles that need to be
+	 *         updated when ants moves to the East
+	 */
 	public int[][] getEastTable() {
 		return EastTable;
 	}
-
+	/**
+	 * 
+	 * @return WestTable contains locations of all the tiles that need to be
+	 *         updated when ants moves to the West
+	 */
 	public int[][] getWestTable() {
 		return WestTable;
 	}
 
 	/**
-	 * initializes a UpdateTable
+	 * initializes a NorthTable
 	 * 
 	 * @param vision
 	 *            value of ants range of vision in a square format.
@@ -61,6 +72,10 @@ public class updateTable {
 		setWestTable();
 	}
 
+	/**
+	 * initializes the EastTable by using the NorthTable and simply switches the
+	 * values to changes it to EastTable.
+	 */
 	public void setEastTable() {
 		EastTable = new int[NorthTable.length][NorthTable[0].length];
 		for (int i = 0; i < NorthTable.length; i++) {
@@ -68,7 +83,10 @@ public class updateTable {
 			EastTable[i][1] = NorthTable[i][0];
 		}
 	}
-
+	/**
+	 * initializes the SouthTable by using the NorthTable and multiplies the y
+	 * column with -1 to get SouthTable.
+	 */
 	public void setSouthTable() {
 		SouthTable = new int[NorthTable.length][NorthTable[0].length];
 		for (int i = 0; i < NorthTable.length; i++) {
@@ -76,7 +94,10 @@ public class updateTable {
 			SouthTable[i][1] = -1 * NorthTable[i][1];
 		}
 	}
-
+	/**
+	 * initializes the WestTable by using the NorthTable and first switches y
+	 * and x and then multiplies the x with -1 column to get WestTable.
+	 */
 	public void setWestTable() {
 		WestTable = new int[NorthTable.length][NorthTable[0].length];
 		for (int i = 0; i < NorthTable.length; i++) {
