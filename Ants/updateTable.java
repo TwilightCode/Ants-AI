@@ -1,8 +1,8 @@
 public class updateTable {
-	public  int[][] NorthTable;
-	public  int[][] EastTable;
-	public  int[][] SouthTable;
-	public  int[][] WestTable;
+	public int[][] NorthTable;
+	public int[][] EastTable;
+	public int[][] SouthTable;
+	public int[][] WestTable;
 
 	/**
 	 * 
@@ -45,7 +45,7 @@ public class updateTable {
 	 *            where ant is moving
 	 * @return table that matches the movement direction
 	 */
-	public int[][] setUpdateTable(Aim direction) {
+	public int[][] getUpdateTable(Aim direction) {
 		if (direction == Aim.NORTH) {
 			return getNorthTable();
 		} else if (direction == Aim.EAST) {
@@ -62,7 +62,7 @@ public class updateTable {
 	 * @param vision
 	 *            value of ants range of vision in a square format.
 	 */
-	public void setNorthTable(int vision) {
+	public void setTables(int vision) {
 		int k = -1;
 		int i = -1;
 		int value = 0;
