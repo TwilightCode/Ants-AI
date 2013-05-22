@@ -38,6 +38,25 @@ public class updateTable {
 	}
 
 	/**
+	 * checks ants movement direction and returns the table containing the
+	 * locations of tiles that need to be updated.
+	 * 
+	 * @param direction
+	 *            where ant is moving
+	 * @return table that matches the movement direction
+	 */
+	public int[][] setUpdateTable(Aim direction) {
+		if (direction == Aim.NORTH) {
+			return getNorthTable();
+		} else if (direction == Aim.EAST) {
+			return getEastTable();
+		} else if (direction == Aim.SOUTH) {
+			return getSouthTable();
+		} else {
+			return getWestTable();
+		}
+	}
+	/**
 	 * initializes a NorthTable
 	 * 
 	 * @param vision
