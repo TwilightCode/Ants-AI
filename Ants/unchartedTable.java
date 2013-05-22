@@ -34,7 +34,7 @@ public class unchartedTable {
 	 * @param row
 	 *            vertical location of a tile
 	 * @param col
-	 *            horisontal location of a tile
+	 *            horizontal location of a tile
 	 * @return true if tile is visible false if invisible
 	 */
 	public boolean Visible(int row, int col) {
@@ -72,13 +72,13 @@ public class unchartedTable {
 		}
 	}
 	/**
-	 * checks if value of horisontal or vertical coordinate goes over the map
+	 * checks if value of horizontal or vertical coordinate goes over the map
 	 * and returns value that is within the border
 	 * 
 	 * @param value
-	 *            horisontal or vertical coordinate
+	 *            horizontal or vertical coordinate
 	 * @param max
-	 *            the border of horisontal or vertical axel on the map
+	 *            the border of horizontal or vertical line on the map
 	 * @return value contains either given value if within borders or the amount
 	 *         that it goes over the top
 	 */
