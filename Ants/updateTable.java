@@ -87,9 +87,9 @@ public class updateTable {
 			NorthTable[i][0] = -1 * NorthTable[k][0];
 			NorthTable[i][1] = NorthTable[k][1];
 		}
-		//setEastTable();
-		//setSouthTable();
-		//setWestTable();
+		setEastTable();
+		setSouthTable();
+		setWestTable();
 	}
 
 	/**
