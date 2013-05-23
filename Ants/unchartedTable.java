@@ -1,7 +1,18 @@
 public class unchartedTable {
-	int[][] uncharted;
+	public int[][] uncharted;
 	Ants game;
 	updateTable update;
+	int mapHeight;
+	int mapWidth;
+
+	public unchartedTable(int vision, Ilk[][] gameField) {
+		update = new updateTable();
+		update.setTables(vision);
+		initializeUncharted(gameField);
+		mapHeight = gameField.length;
+		mapWidth = gameField[0].length;
+	}
+
 	/**
 	 * 
 	 * @return uncharted contains the information about how many turns it has
@@ -10,6 +21,7 @@ public class unchartedTable {
 	public int[][] getUncharted() {
 		return uncharted;
 	}
+
 	/**
 	 * initializes uncharted
 	 * 
@@ -28,6 +40,7 @@ public class unchartedTable {
 			}
 		}
 	}
+
 	/**
 	 * tells if tile is visible or not
 	 * 
@@ -45,19 +58,24 @@ public class unchartedTable {
 	/**
 	 * establishes new view area
 	 */
-	public void setViewArea(int vision, Tile MyAnt) {
+	public void setViewArea(int row, int col) {
 		int[][] easternLine = update.getEastTable();
 		int[][] westernLine = update.getWestTable();
-		int row = MyAnt.getRow();
-		int col = MyAnt.getCol();
-		for (int i = 0; i < easternLine.length; i++) {
-			col += easternLine[i][1];
-			for (int j = easternLine[i][0] + 1; j < westernLine[i][0]; j++) {
-				row += j;
-				uncharted[col][row] = 0;
+		int width = 0;
+		int height = 0;
+		for (int i = 0; i < westernLine.length; i++) {
+			height = westernLine[i][1] + col;
+			for (int j = westernLine[i][0] + 1; j < easternLine[i][0]; j++) {
+				width = j + row;
+				width = isWidthOverBoard(width);
+				height = isHeightOverBoard(height);
+				if (uncharted[height][width] != -1) {
+					uncharted[height][width] = 0;
+				}
 			}
 		}
 	}
+
 	/**
 	 * goes through uncharted and raises the value of areas that are unseen by
 	 * own ants
@@ -71,6 +89,7 @@ public class unchartedTable {
 			}
 		}
 	}
+
 	/**
 	 * checks if value of horizontal or vertical coordinate goes over the map
 	 * and returns value that is within the border
@@ -82,12 +101,26 @@ public class unchartedTable {
 	 * @return value contains either given value if within borders or the amount
 	 *         that it goes over the top
 	 */
-	public int isOverBoard(int value, int max) {
-		if (value >= max) {
-			return value - max;
+	public int isHeightOverBoard(int value) {
+		if (value >= mapHeight) {
+			return value - mapHeight;
+		} else if (value < 0) {
+			return mapHeight + value;
+		} else {
+			return value;
 		}
-		return value;
 	}
+
+	public int isWidthOverBoard(int value) {
+		if (value >= mapWidth) {
+			return value - mapWidth;
+		} else if (value < 0) {
+			return mapWidth + value;
+		} else {
+			return value;
+		}
+	}
+
 	/**
 	 * counts how much ant would gain from moving to the direction given in
 	 * table
@@ -99,19 +132,21 @@ public class unchartedTable {
 	 *            after ants moves should ant move to this direction
 	 * @return value is the amount gain from moving to this direction
 	 */
-	public int getMoveValue(Tile MyAnt, int table[][]) {
-		int row;
-		int col;
+	public int getMoveValue(int row, int col, Aim direction) {
+		int width = 0;
+		int height = 0;
 		int value = 0;
+		int[][] table = update.getUpdateTable(direction);
 		for (int i = 0; i < table.length; i++) {
-			row = MyAnt.getRow() + table[i][0];
-			col = MyAnt.getCol() + table[i][1];
-			row = isOverBoard(row, game.getRows());
-			col = isOverBoard(col, game.getCols());
-			value += uncharted[row][col];
+			width = row + table[i][0];
+			height = col + table[i][1];
+			width = isWidthOverBoard(width);
+			height = isHeightOverBoard(height);
+			value += uncharted[height][width];
 		}
 		return value;
 	}
+
 	/**
 	 * sets the new area covered by the view radius to zero.
 	 * 
@@ -120,15 +155,18 @@ public class unchartedTable {
 	 * @param table
 	 *            contains coordinates of the new areas that are to be seen
 	 */
-	public void setTable(Tile MyAnt, int table[][]) {
-		int row;
-		int col;
+	public void setTable(int row, int col, Aim direction) {
+		int width = 0;
+		int height = 0;
+		int[][] table = update.getUpdateTable(direction);
 		for (int i = 0; i < table.length; i++) {
-			row = MyAnt.getRow() + table[i][0];
-			col = MyAnt.getCol() + table[i][1];
-			row = isOverBoard(row, game.getRows());
-			col = isOverBoard(col, game.getCols());
-			uncharted[row][col] = 0;
+			width = row + table[i][0];
+			height = col + table[i][1];
+			width = isWidthOverBoard(width);
+			height = isHeightOverBoard(height);
+			if (uncharted[height][width] != -1){
+			uncharted[height][width] = 0;
+			}
 		}
 	}
 }
