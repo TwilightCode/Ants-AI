@@ -57,7 +57,7 @@ public class updateTable {
 		}
 	}
 	/**
-	 * initializes a NorthTable
+	 * initializes all the update Tables
 	 * 
 	 * @param vision
 	 *            value of ants range of vision in a square format.
@@ -67,28 +67,28 @@ public class updateTable {
 		int i = -1;
 		int value = 0;
 		int range = (int) Math.sqrt(vision);
-		NorthTable = new int[2 * range + 1][2];
+		SouthTable = new int[2 * range + 1][2];
 		for (int j = range; j > 0; j--) {
 			while (value < vision) {
 				i++;
 				value = (int) Math.pow(j, 2) + (int) Math.pow(i, 2);
 				}
 			k++;
-			NorthTable[k][0] = j;
-			NorthTable[k][1] = i;
+			SouthTable[k][0] = j;
+			SouthTable[k][1] = i;
 			i = 0;
 			value = 0;
 		}
 		i = range;
-		NorthTable[k+1][0] = 0;
-		NorthTable[k+1][1] = range + 1;
+		SouthTable[k+1][0] = 0;
+		SouthTable[k+1][1] = range + 1;
 		for (;k >= 0; k--) {
 			i++;
-			NorthTable[i][0] = -1 * NorthTable[k][0];
-			NorthTable[i][1] = NorthTable[k][1];
+			SouthTable[i][0] = -1 * SouthTable[k][0];
+			SouthTable[i][1] = SouthTable[k][1];
 		}
 		setEastTable();
-		setSouthTable();
+		setNorthTable();
 		setWestTable();
 	}
 
@@ -97,21 +97,21 @@ public class updateTable {
 	 * values to changes it to EastTable.
 	 */
 	public void setEastTable() {
-		EastTable = new int[NorthTable.length][NorthTable[0].length];
-		for (int i = 0; i < NorthTable.length; i++) {
-			EastTable[i][0] = NorthTable[i][1];
-			EastTable[i][1] = NorthTable[i][0];
+		EastTable = new int[SouthTable.length][SouthTable[0].length];
+		for (int i = 0; i < SouthTable.length; i++) {
+			EastTable[i][0] = SouthTable[i][1];
+			EastTable[i][1] = SouthTable[i][0];
 		}
 	}
 	/**
 	 * initializes the SouthTable by using the NorthTable and multiplies the y
 	 * column with -1 to get SouthTable.
 	 */
-	public void setSouthTable() {
-		SouthTable = new int[NorthTable.length][NorthTable[0].length];
-		for (int i = 0; i < NorthTable.length; i++) {
-			SouthTable[i][0] = NorthTable[i][0];
-			SouthTable[i][1] = -1 * NorthTable[i][1];
+	public void setNorthTable() {
+		NorthTable = new int[SouthTable.length][SouthTable[0].length];
+		for (int i = 0; i < SouthTable.length; i++) {
+			NorthTable[i][0] = SouthTable[i][0];
+			NorthTable[i][1] = -1 * SouthTable[i][1];
 		}
 	}
 	/**
@@ -119,10 +119,10 @@ public class updateTable {
 	 * and x and then multiplies the x with -1 column to get WestTable.
 	 */
 	public void setWestTable() {
-		WestTable = new int[NorthTable.length][NorthTable[0].length];
-		for (int i = 0; i < NorthTable.length; i++) {
-			WestTable[i][0] = -1 * NorthTable[i][1];
-			WestTable[i][1] = NorthTable[i][0];
+		WestTable = new int[SouthTable.length][SouthTable[0].length];
+		for (int i = 0; i < SouthTable.length; i++) {
+			WestTable[i][0] = -1 * SouthTable[i][1];
+			WestTable[i][1] = SouthTable[i][0];
 		}
 	}
 }
