@@ -5,6 +5,14 @@ public class unchartedTable {
 	int mapHeight;
 	int mapWidth;
 
+	/**
+	 * constructor
+	 * 
+	 * @param vision
+	 *            of the ant in a square format
+	 * @param gameField
+	 *            the game table
+	 */
 	public unchartedTable(int vision, Ilk[][] gameField) {
 		update = new updateTable();
 		update.setTables(vision);
@@ -57,6 +65,11 @@ public class unchartedTable {
 
 	/**
 	 * establishes new view area
+	 * 
+	 * @param row
+	 *            x line
+	 * @param col
+	 *            y line
 	 */
 	public void setViewArea(int row, int col) {
 		int[][] easternLine = update.getEastTable();
@@ -91,13 +104,11 @@ public class unchartedTable {
 	}
 
 	/**
-	 * checks if value of horizontal or vertical coordinate goes over the map
-	 * and returns value that is within the border
+	 * checks if value of vertical coordinate goes over the map and returns
+	 * value that is within the border
 	 * 
 	 * @param value
-	 *            horizontal or vertical coordinate
-	 * @param max
-	 *            the border of horizontal or vertical line on the map
+	 *            vertical coordinate
 	 * @return value contains either given value if within borders or the amount
 	 *         that it goes over the top
 	 */
@@ -111,6 +122,15 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * checks if value of horizontal coordinate goes over the map and returns
+	 * value that is within the border
+	 * 
+	 * @param value
+	 *            horizontal coordinate
+	 * @return value contains either given value if within borders or the amount
+	 *         that it goes over the top
+	 */
 	public int isWidthOverBoard(int value) {
 		if (value >= mapWidth) {
 			return value - mapWidth;
@@ -125,11 +145,13 @@ public class unchartedTable {
 	 * counts how much ant would gain from moving to the direction given in
 	 * table
 	 * 
-	 * @param MyAnt
-	 *            the current location of ant
-	 * @param table
-	 *            contains some directions coordinates that would be visible
-	 *            after ants moves should ant move to this direction
+	 * @param row
+	 *            x line
+	 * @param col
+	 *            y line
+	 * 
+	 * @param direction
+	 *            where ant would move
 	 * @return value is the amount gain from moving to this direction
 	 */
 	public int getMoveValue(int row, int col, Aim direction) {
@@ -150,10 +172,12 @@ public class unchartedTable {
 	/**
 	 * sets the new area covered by the view radius to zero.
 	 * 
-	 * @param MyAnt
-	 *            the current location of ant
-	 * @param table
-	 *            contains coordinates of the new areas that are to be seen
+	 * @param row
+	 *            x line
+	 * @param col
+	 *            y line
+	 * @param direction
+	 *            where ant moves
 	 */
 	public void setTable(int row, int col, Aim direction) {
 		int width = 0;
@@ -164,8 +188,8 @@ public class unchartedTable {
 			height = col + table[i][1];
 			width = isWidthOverBoard(width);
 			height = isHeightOverBoard(height);
-			if (uncharted[height][width] != -1){
-			uncharted[height][width] = 0;
+			if (uncharted[height][width] != -1) {
+				uncharted[height][width] = 0;
 			}
 		}
 	}

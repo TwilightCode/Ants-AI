@@ -12,6 +12,7 @@ public class updateTable {
 	public int[][] getNorthTable() {
 		return NorthTable;
 	}
+
 	/**
 	 * 
 	 * @return SouthTable contains locations of all the tiles that need to be
@@ -20,6 +21,7 @@ public class updateTable {
 	public int[][] getSouthTable() {
 		return SouthTable;
 	}
+
 	/**
 	 * 
 	 * @return EastTable contains locations of all the tiles that need to be
@@ -28,6 +30,7 @@ public class updateTable {
 	public int[][] getEastTable() {
 		return EastTable;
 	}
+
 	/**
 	 * 
 	 * @return WestTable contains locations of all the tiles that need to be
@@ -56,6 +59,7 @@ public class updateTable {
 			return getWestTable();
 		}
 	}
+
 	/**
 	 * initializes all the update Tables
 	 * 
@@ -72,7 +76,7 @@ public class updateTable {
 			while (value < vision) {
 				i++;
 				value = (int) Math.pow(j, 2) + (int) Math.pow(i, 2);
-				}
+			}
 			k++;
 			SouthTable[k][0] = j;
 			SouthTable[k][1] = i;
@@ -80,9 +84,9 @@ public class updateTable {
 			value = 0;
 		}
 		i = range;
-		SouthTable[k+1][0] = 0;
-		SouthTable[k+1][1] = range + 1;
-		for (;k >= 0; k--) {
+		SouthTable[k + 1][0] = 0;
+		SouthTable[k + 1][1] = range + 1;
+		for (; k >= 0; k--) {
 			i++;
 			SouthTable[i][0] = -1 * SouthTable[k][0];
 			SouthTable[i][1] = SouthTable[k][1];
@@ -93,7 +97,7 @@ public class updateTable {
 	}
 
 	/**
-	 * initializes the EastTable by using the NorthTable and simply switches the
+	 * initializes the EastTable by using the SouthTable and simply switches the
 	 * values to changes it to EastTable.
 	 */
 	public void setEastTable() {
@@ -103,9 +107,10 @@ public class updateTable {
 			EastTable[i][1] = SouthTable[i][0];
 		}
 	}
+
 	/**
-	 * initializes the SouthTable by using the NorthTable and multiplies the y
-	 * column with -1 to get SouthTable.
+	 * initializes the NorthTable by using the SouthTable and multiplies the y
+	 * column with -1 to get NorthTable.
 	 */
 	public void setNorthTable() {
 		NorthTable = new int[SouthTable.length][SouthTable[0].length];
@@ -114,8 +119,9 @@ public class updateTable {
 			NorthTable[i][1] = -1 * SouthTable[i][1];
 		}
 	}
+
 	/**
-	 * initializes the WestTable by using the NorthTable and first switches y
+	 * initializes the WestTable by using the SouthTable and first switches y
 	 * and x and then multiplies the x with -1 column to get WestTable.
 	 */
 	public void setWestTable() {
