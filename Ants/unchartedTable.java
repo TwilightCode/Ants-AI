@@ -1,6 +1,5 @@
 public class unchartedTable {
-	public int[][] uncharted;
-	Ants game;
+	private int[][] uncharted;
 	updateTable update;
 	int mapHeight;
 	int mapWidth;
@@ -14,8 +13,7 @@ public class unchartedTable {
 	 *            the game table
 	 */
 	public unchartedTable(int vision, Ilk[][] gameField) {
-		update = new updateTable();
-		update.setTables(vision);
+		update = new updateTable(vision);
 		initializeUncharted(gameField);
 		mapHeight = gameField.length;
 		mapWidth = gameField[0].length;
@@ -58,7 +56,7 @@ public class unchartedTable {
 	 *            horizontal location of a tile
 	 * @return true if tile is visible false if invisible
 	 */
-	public boolean Visible(int row, int col) {
+	public boolean Visible(int row, int col, Ants game) {
 		Tile brick = new Tile(row, col);
 		return game.isVisible(brick);
 	}
@@ -93,10 +91,10 @@ public class unchartedTable {
 	 * goes through uncharted and raises the value of areas that are unseen by
 	 * own ants
 	 */
-	public void raiseUncharted() {
+	public void raiseUncharted(Ants game) {
 		for (int i = 0; i < uncharted.length; i++) {
 			for (int j = 0; j < uncharted[0].length; j++) {
-				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1) && !Visible(i, j)) {
+				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1) && !Visible(i, j, game)) {
 					uncharted[i][j] += 1;
 				}
 			}

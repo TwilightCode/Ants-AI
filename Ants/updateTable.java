@@ -1,8 +1,20 @@
 public class updateTable {
-	public int[][] NorthTable;
-	public int[][] EastTable;
-	public int[][] SouthTable;
-	public int[][] WestTable;
+	private int[][] NorthTable;
+	private int[][] EastTable;
+	private int[][] SouthTable;
+	private int[][] WestTable;
+
+	/**
+	 * 
+	 * @param viewRange
+	 *            value of ants range of vision in a square format.
+	 */
+	public updateTable(int viewRange) {
+		setSouthTable(viewRange);
+		setNorthTable();
+		setEastTable();
+		setWestTable();
+	}
 
 	/**
 	 * 
@@ -61,39 +73,65 @@ public class updateTable {
 	}
 
 	/**
-	 * initializes all the update Tables
+	 * sets new coordinate values to given updateTable
+	 * 
+	 * @param x
+	 *            horizontal coordinate
+	 * @param y
+	 *            vertical coordinate
+	 * @param table
+	 *            is being updated
+	 * @param number
+	 *            row of table to be updated
+	 */
+	public void setMemberTable(int x, int y, int[][] table, int number) {
+		table[number][0] = x;
+		table[number][1] = y;
+	}
+
+	/**
+	 * calculates coordinate that goes just beyond the view area on the south
+	 * side
+	 * 
+	 * @param viewRange
+	 *            given view in square format
+	 * @param x
+	 *            horizontal coordinate
+	 * @return y vertical coordinate
+	 */
+	public int calculateVisibility(int viewRange, int x) {
+		int y = 0;
+		int value = 0;
+		while (value < viewRange) {
+			y++;
+			value = ((int) Math.pow(x, 2) + (int) Math.pow(y, 2));
+		}
+		return y;
+	}
+
+	/**
+	 * initializes the SouthTable.
 	 * 
 	 * @param vision
 	 *            value of ants range of vision in a square format.
 	 */
-	public void setTables(int vision) {
-		int k = -1;
-		int i = -1;
-		int value = 0;
+	public void setSouthTable(int vision) {
+		int height = 0;
 		int range = (int) Math.sqrt(vision);
-		SouthTable = new int[2 * range + 1][2];
-		for (int j = range; j > 0; j--) {
-			while (value < vision) {
-				i++;
-				value = (int) Math.pow(j, 2) + (int) Math.pow(i, 2);
+		int width = (-1 - range);
+		int max = (2 * range + 1);
+		SouthTable = new int[max][2];
+		for (int i = 0; i < max; i++) {
+			width++;
+			if (i < range) {
+				height = calculateVisibility(vision, width);
+			} else if (i == range) {
+				height = (range + 1);
+			} else {
+				height = SouthTable[range - width][1];
 			}
-			k++;
-			SouthTable[k][0] = j;
-			SouthTable[k][1] = i;
-			i = 0;
-			value = 0;
+			setMemberTable(width, height, SouthTable, i);
 		}
-		i = range;
-		SouthTable[k + 1][0] = 0;
-		SouthTable[k + 1][1] = range + 1;
-		for (; k >= 0; k--) {
-			i++;
-			SouthTable[i][0] = -1 * SouthTable[k][0];
-			SouthTable[i][1] = SouthTable[k][1];
-		}
-		setEastTable();
-		setNorthTable();
-		setWestTable();
 	}
 
 	/**
@@ -103,8 +141,7 @@ public class updateTable {
 	public void setEastTable() {
 		EastTable = new int[SouthTable.length][SouthTable[0].length];
 		for (int i = 0; i < SouthTable.length; i++) {
-			EastTable[i][0] = SouthTable[i][1];
-			EastTable[i][1] = SouthTable[i][0];
+			setMemberTable(SouthTable[i][1], SouthTable[i][0], EastTable, i);
 		}
 	}
 
@@ -115,8 +152,7 @@ public class updateTable {
 	public void setNorthTable() {
 		NorthTable = new int[SouthTable.length][SouthTable[0].length];
 		for (int i = 0; i < SouthTable.length; i++) {
-			NorthTable[i][0] = SouthTable[i][0];
-			NorthTable[i][1] = -1 * SouthTable[i][1];
+			setMemberTable(SouthTable[i][0], -1 * SouthTable[i][1], NorthTable, i);
 		}
 	}
 
@@ -127,8 +163,7 @@ public class updateTable {
 	public void setWestTable() {
 		WestTable = new int[SouthTable.length][SouthTable[0].length];
 		for (int i = 0; i < SouthTable.length; i++) {
-			WestTable[i][0] = -1 * SouthTable[i][1];
-			WestTable[i][1] = SouthTable[i][0];
+			setMemberTable(-1 * SouthTable[i][1], SouthTable[i][0], WestTable, i);
 		}
 	}
 }
