@@ -3,7 +3,7 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-
+//this class is part of google stater pack and has not been modified.
 /**
  * Holds all game data and current game state.
  */

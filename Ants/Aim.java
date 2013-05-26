@@ -1,6 +1,6 @@
 import java.util.HashMap;
 import java.util.Map;
-
+//this class is part of google stater pack and has not been modified.
 /**
  * Represents a direction in which to move an ant.
  */

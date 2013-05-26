@@ -1,8 +1,9 @@
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 import java.util.regex.Pattern;
-
+// this class is part of google stater pack and has not been modified.
 /**
  * Handles system input stream parsing.
  */

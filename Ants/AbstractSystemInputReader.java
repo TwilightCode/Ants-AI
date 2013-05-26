@@ -1,5 +1,6 @@
 import java.io.IOException;
 
+//this class is part of google stater pack and has not been modified.
 /**
  * Handles system input stream reading.
  */
