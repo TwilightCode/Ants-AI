@@ -1,6 +1,7 @@
 public class unchartedTable {
 	private int[][] uncharted;
 	updateTable update;
+	gameMap area;
 	int mapHeight;
 	int mapWidth;
 
@@ -12,11 +13,13 @@ public class unchartedTable {
 	 * @param gameField
 	 *            the game table
 	 */
-	public unchartedTable(int vision, Ilk[][] gameField) {
+	public unchartedTable(int vision, gameMap map) {
 		update = new updateTable(vision);
-		initializeUncharted(gameField);
-		mapHeight = gameField.length;
-		mapWidth = gameField[0].length;
+		area = map;
+		Ilk[][] field = area.getMap();
+		initializeUncharted(field);
+		mapHeight = field.length;
+		mapWidth = field[0].length;
 	}
 
 	/**
@@ -38,27 +41,9 @@ public class unchartedTable {
 		uncharted = new int[gameField.length][gameField[0].length];
 		for (int i = 0; i < gameField.length; i++) {
 			for (int j = 0; j < gameField[0].length; j++) {
-				if (gameField[i][j] != Ilk.WATER) {
-					uncharted[i][j] = 30;
-				} else {
-					uncharted[i][j] = -1;
+				uncharted[i][j] = 31;
 				}
-			}
 		}
-	}
-
-	/**
-	 * tells if tile is visible or not
-	 * 
-	 * @param row
-	 *            vertical location of a tile
-	 * @param col
-	 *            horizontal location of a tile
-	 * @return true if tile is visible false if invisible
-	 */
-	public boolean Visible(int row, int col, Ants game) {
-		Tile brick = new Tile(row, col);
-		return game.isVisible(brick);
 	}
 
 	/**
@@ -82,6 +67,7 @@ public class unchartedTable {
 				height = isHeightOverBoard(height);
 				if (uncharted[height][width] != -1) {
 					uncharted[height][width] = 0;
+					gameMap.setMapTile(height, width);
 				}
 			}
 		}
@@ -90,11 +76,14 @@ public class unchartedTable {
 	/**
 	 * goes through uncharted and raises the value of areas that are unseen by
 	 * own ants
+	 * 
+	 * @param game
+	 *            contains the current game
 	 */
-	public void raiseUncharted(Ants game) {
+	public void raiseUncharted() {
 		for (int i = 0; i < uncharted.length; i++) {
 			for (int j = 0; j < uncharted[0].length; j++) {
-				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1) && !Visible(i, j, game)) {
+				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1) ) {
 					uncharted[i][j] += 1;
 				}
 			}
@@ -188,6 +177,7 @@ public class unchartedTable {
 			height = isHeightOverBoard(height);
 			if (uncharted[height][width] != -1) {
 				uncharted[height][width] = 0;
+				area.setGameTile(height, width);
 			}
 		}
 	}
