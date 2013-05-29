@@ -13,8 +13,8 @@ public class unchartedTable {
 	 * @param gameField
 	 *            the game table
 	 */
-	public unchartedTable(int vision, gameMap map) {
-		update = new updateTable(vision);
+	public unchartedTable(updateTable update, gameMap map) {
+		this.update = update;
 		area = map;
 		Ilk[][] field = area.getMap();
 		initializeUncharted(field);
@@ -42,7 +42,7 @@ public class unchartedTable {
 		for (int i = 0; i < gameField.length; i++) {
 			for (int j = 0; j < gameField[0].length; j++) {
 				uncharted[i][j] = 31;
-				}
+			}
 		}
 	}
 
@@ -63,11 +63,11 @@ public class unchartedTable {
 			height = westernLine[i][1] + col;
 			for (int j = westernLine[i][0] + 1; j < easternLine[i][0]; j++) {
 				width = j + row;
-				width = isWidthOverBoard(width);
-				height = isHeightOverBoard(height);
+				width = area.isWidthOverBoard(width);
+				height = area.isHeightOverBoard(height);
 				if (uncharted[height][width] != -1) {
 					uncharted[height][width] = 0;
-					gameMap.setMapTile(height, width);
+					area.setMapTile(height, width);
 				}
 			}
 		}
@@ -83,48 +83,10 @@ public class unchartedTable {
 	public void raiseUncharted() {
 		for (int i = 0; i < uncharted.length; i++) {
 			for (int j = 0; j < uncharted[0].length; j++) {
-				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1) ) {
+				if ((uncharted[i][j] < 30 && uncharted[i][j] > -1 && !area.isSeen(i,j))) {
 					uncharted[i][j] += 1;
 				}
 			}
-		}
-	}
-
-	/**
-	 * checks if value of vertical coordinate goes over the map and returns
-	 * value that is within the border
-	 * 
-	 * @param value
-	 *            vertical coordinate
-	 * @return value contains either given value if within borders or the amount
-	 *         that it goes over the top
-	 */
-	public int isHeightOverBoard(int value) {
-		if (value >= mapHeight) {
-			return value - mapHeight;
-		} else if (value < 0) {
-			return mapHeight + value;
-		} else {
-			return value;
-		}
-	}
-
-	/**
-	 * checks if value of horizontal coordinate goes over the map and returns
-	 * value that is within the border
-	 * 
-	 * @param value
-	 *            horizontal coordinate
-	 * @return value contains either given value if within borders or the amount
-	 *         that it goes over the top
-	 */
-	public int isWidthOverBoard(int value) {
-		if (value >= mapWidth) {
-			return value - mapWidth;
-		} else if (value < 0) {
-			return mapWidth + value;
-		} else {
-			return value;
 		}
 	}
 
@@ -136,7 +98,6 @@ public class unchartedTable {
 	 *            x line
 	 * @param col
 	 *            y line
-	 * 
 	 * @param direction
 	 *            where ant would move
 	 * @return value is the amount gain from moving to this direction
@@ -149,8 +110,8 @@ public class unchartedTable {
 		for (int i = 0; i < table.length; i++) {
 			width = row + table[i][0];
 			height = col + table[i][1];
-			width = isWidthOverBoard(width);
-			height = isHeightOverBoard(height);
+			width = area.isWidthOverBoard(width);
+			height = area.isHeightOverBoard(height);
 			value += uncharted[height][width];
 		}
 		return value;
@@ -173,11 +134,11 @@ public class unchartedTable {
 		for (int i = 0; i < table.length; i++) {
 			width = row + table[i][0];
 			height = col + table[i][1];
-			width = isWidthOverBoard(width);
-			height = isHeightOverBoard(height);
+			width = area.isWidthOverBoard(width);
+			height = area.isHeightOverBoard(height);
 			if (uncharted[height][width] != -1) {
 				uncharted[height][width] = 0;
-				area.setGameTile(height, width);
+				area.setMapTile(height, width);
 			}
 		}
 	}

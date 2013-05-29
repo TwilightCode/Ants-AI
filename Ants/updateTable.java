@@ -108,7 +108,6 @@ public class updateTable {
 		}
 		return y;
 	}
-
 	/**
 	 * initializes the SouthTable.
 	 * 

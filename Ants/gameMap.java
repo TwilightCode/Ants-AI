@@ -1,11 +1,13 @@
 public class gameMap {
 	private Ilk[][] gameMap;
 	Ants game;
+	updateTable update;
 
-	public gameMap(int height, int withd, Ants game) {
+	public gameMap(Ants game, updateTable update) {
 		this.game = game;
-		gameMap = new Ilk[height][withd];
-		initializeMap(height, withd);
+		this.update = update;
+		gameMap = new Ilk[game.getRows()][game.getCols()];
+		initializeMap(game.getRows(), game.getCols());
 	}
 
 	public void initializeMap(int withd, int height) {
@@ -28,25 +30,80 @@ public class gameMap {
 		Tile tile = new Tile(row, col);
 		gameMap[row][col] = game.getIlk(tile);
 	}
-
-	public boolean Visible(int row, int col) {
-		Tile tile = new Tile(row, col);
-		return game.isVisible(tile);
+	
+	public void setMapTile(int row, int col, Ilk tile) {
+		gameMap[row][col] = tile;
+	}
+		
+	public boolean isSeen(int row, int col) {
+		int[][] WestTable = update.getWestTable();
+		int[][] EastTable = update.getEastTable();
+		int width = 0;
+		int height = 0;
+		for (int i = 0; i < WestTable.length; i++) {
+			height = WestTable[i][1] + row;
+			for (int j = WestTable[i][0] + 1; j < EastTable[i][0]; j++) {
+				width = j + col;
+				width = isWidthOverBoard(width);
+				height = isHeightOverBoard(height);
+				if (gameMap[height][width] == Ilk.MY_ANT){
+				return true;	
+				}
+			}
+		}
+		return false;
 	}
 
-	public boolean Visible(Tile tile) {
-		return game.isVisible(tile);
+	/**
+	 * checks if value of vertical coordinate goes over the map and returns
+	 * value that is within the border
+	 * 
+	 * @param value
+	 *            vertical coordinate
+	 * @return value contains either given value if within borders or the amount
+	 *         that it goes over the top
+	 */
+	public int isHeightOverBoard(int value) {
+		if (value >= gameMap.length) {
+			return value - gameMap.length;
+		} else if (value < 0) {
+			return gameMap.length + value;
+		} else {
+			return value;
+		}
 	}
 
-	public void clearUnseen(int row, int col, int[][] table) {
+	/**
+	 * checks if value of horizontal coordinate goes over the map and returns
+	 * value that is within the border
+	 * 
+	 * @param value
+	 *            horizontal coordinate
+	 * @return value contains either given value if within borders or the amount
+	 *         that it goes over the top
+	 */
+	public int isWidthOverBoard(int value) {
+		if (value >= gameMap[0].length) {
+			return value - gameMap[0].length;
+		} else if (value < 0) {
+			return gameMap[0].length + value;
+		} else {
+			return value;
+		}
+	}
+
+	public void clearUnseen(int row, int col, Aim direction) {
 		int height;
-		int withd;
+		int width;
+		int[][] table = update.getUpdateTable(direction);
 		for (int i = 0; i < table.length; i++) {
 			height = row + table[i][1];
-			withd = col + table[i][0];
-			if (!Visible(height, withd)) {
-				if (getMapTile(height, withd) != Ilk.WATER) {
-					gameMap[height][withd] = Ilk.LAND;
+			width = col + table[i][0];
+			width = isWidthOverBoard(width);
+			height = isHeightOverBoard(height);
+			if (!isSeen(height, width)) {
+				if (getMapTile(height, width) != Ilk.WATER && getMapTile(height, width) != Ilk.MY_ANT) {
+					gameMap[height][width] = Ilk.LAND;
 				}
 			}
 		}
