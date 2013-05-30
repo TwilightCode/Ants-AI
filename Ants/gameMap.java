@@ -3,6 +3,14 @@ public class gameMap {
 	Ants game;
 	updateTable update;
 
+	/**
+	 * constructor
+	 * 
+	 * @param game
+	 *            current game
+	 * @param update
+	 *            contains update tables
+	 */
 	public gameMap(Ants game, updateTable update) {
 		this.game = game;
 		this.update = update;
@@ -10,6 +18,14 @@ public class gameMap {
 		initializeMap(game.getRows(), game.getCols());
 	}
 
+	/**
+	 * initializes the map that AI knows
+	 * 
+	 * @param withd
+	 *            of the map
+	 * @param height
+	 *            of the map
+	 */
 	public void initializeMap(int withd, int height) {
 		for (int i = 0; i < height; i++) {
 			for (int j = 0; j < withd; j++) {
@@ -18,23 +34,61 @@ public class gameMap {
 		}
 	}
 
+	/**
+	 * @return gameMap that AI knows
+	 */
 	public Ilk[][] getMap() {
 		return gameMap;
 	}
 
+	/**
+	 * @param row
+	 *            y coordinate
+	 * @param col
+	 *            x coordinate
+	 * @return type that is within the tile
+	 */
 	public Ilk getMapTile(int row, int col) {
 		return gameMap[row][col];
 	}
 
+	/**
+	 * sets one tile with tile given from the actual game map
+	 * 
+	 * @param row
+	 *            y coordinate
+	 * @param col
+	 *            x coordinate
+	 */
 	public void setMapTile(int row, int col) {
 		Tile tile = new Tile(row, col);
 		gameMap[row][col] = game.getIlk(tile);
 	}
-	
-	public void setMapTile(int row, int col, Ilk tile) {
-		gameMap[row][col] = tile;
+
+	/**
+	 * sets one tile with tile given in parameters
+	 * 
+	 * @param row
+	 *            y coordinate
+	 * @param col
+	 *            x coordinate
+	 * @param type
+	 *            of tile
+	 */
+	public void setMapTile(int row, int col, Ilk type) {
+		gameMap[row][col] = type;
 	}
-		
+
+	/**
+	 * checks all tiles in case they have own ant that could see the tile if
+	 * they have returns true else false
+	 * 
+	 * @param row
+	 *            y coordinate
+	 * @param col
+	 *            x coordinate
+	 * @return true if tile is seen by own ant else false
+	 */
 	public boolean isSeen(int row, int col) {
 		int[][] WestTable = update.getWestTable();
 		int[][] EastTable = update.getEastTable();
@@ -46,8 +100,8 @@ public class gameMap {
 				width = j + col;
 				width = isWidthOverBoard(width);
 				height = isHeightOverBoard(height);
-				if (gameMap[height][width] == Ilk.MY_ANT){
-				return true;	
+				if (gameMap[height][width] == Ilk.MY_ANT) {
+					return true;
 				}
 			}
 		}
@@ -92,6 +146,16 @@ public class gameMap {
 		}
 	}
 
+	/**
+	 * sets tiles in a map to land that are not seen from ants location and are
+	 * not seen by any other ant either.
+	 * 
+	 * @param row
+	 *            y coordinate
+	 * @param col
+	 *            x coordinate
+	 * @param direction
+	 */
 	public void clearUnseen(int row, int col, Aim direction) {
 		int height;
 		int width;

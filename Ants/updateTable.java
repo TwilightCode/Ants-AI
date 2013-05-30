@@ -5,7 +5,6 @@ public class updateTable {
 	private int[][] WestTable;
 
 	/**
-	 * 
 	 * @param viewRange
 	 *            value of ants range of vision in a square format.
 	 */
@@ -17,7 +16,6 @@ public class updateTable {
 	}
 
 	/**
-	 * 
 	 * @return NorthTable contains locations of all the tiles that need to be
 	 *         updated when ants moves to the North
 	 */
@@ -26,7 +24,6 @@ public class updateTable {
 	}
 
 	/**
-	 * 
 	 * @return SouthTable contains locations of all the tiles that need to be
 	 *         updated when ants moves to the South
 	 */
@@ -35,7 +32,6 @@ public class updateTable {
 	}
 
 	/**
-	 * 
 	 * @return EastTable contains locations of all the tiles that need to be
 	 *         updated when ants moves to the East
 	 */
@@ -44,7 +40,6 @@ public class updateTable {
 	}
 
 	/**
-	 * 
 	 * @return WestTable contains locations of all the tiles that need to be
 	 *         updated when ants moves to the West
 	 */
@@ -108,6 +103,7 @@ public class updateTable {
 		}
 		return y;
 	}
+
 	/**
 	 * initializes the SouthTable.
 	 * 

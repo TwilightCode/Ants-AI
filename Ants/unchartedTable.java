@@ -23,7 +23,6 @@ public class unchartedTable {
 	}
 
 	/**
-	 * 
 	 * @return uncharted contains the information about how many turns it has
 	 *         been when the tile was last visible
 	 */
