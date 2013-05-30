@@ -5,4 +5,5 @@ Data Structures and Algorithms project for University of Helsinki.
 
 [Määrittelydokumentti](Määrittelydokumentti.pdf)  
 [Viikkoraportti 1.](Viikkoraportti1.pdf)   
-[Viikkoraportti 2.](Viikkoraportti2.pdf)
+[Viikkoraportti 2.](Viikkoraportti2.pdf)  
+[Viikkoraportti 3.](Viikkoraportti3.pdf)
