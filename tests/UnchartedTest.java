@@ -25,7 +25,8 @@ public class UnchartedTest {
 	public void setUpTests() {
 		Ants game = new Ants(100, 100, 10, 10, 10, 55, 25, 55);
 		updateTable update = new updateTable(6);
-		uncharted = new unchartedTable(update, game);
+	    movementList moves = new movementList(game);
+		uncharted = new unchartedTable(update, game, moves);
 		testTable = uncharted.getUncharted();
 	}
 

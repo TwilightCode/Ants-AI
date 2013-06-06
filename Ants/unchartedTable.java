@@ -5,6 +5,7 @@ public class unchartedTable {
 	private int[][] uncharted;
 	updateTable update;
 	Ants game;
+	movementList moves;
 	private int mapHeight;
 	private int mapWidth;
 
@@ -16,9 +17,10 @@ public class unchartedTable {
 	 * @param gameField
 	 *            the game table
 	 */
-	public unchartedTable(updateTable update, Ants game) {
+	public unchartedTable(updateTable update, Ants game, movementList moves) {
 		this.game = game;
 		this.update = update;
+		this.moves = moves;
 		this.mapHeight = game.getRows();
 		this.mapWidth = game.getCols();
 		initializeUncharted();
@@ -173,7 +175,9 @@ public class unchartedTable {
 		Aim[] directions = { Aim.NORTH, Aim.EAST, Aim.SOUTH, Aim.WEST };
 		for (int i = 0; i < directions.length; i++) {
 			newTile = game.getTile(tile, directions[i]);
-			if (!isTileBlocked(newTile)) {
+			if (!isTileBlocked(newTile) && !moves.isToBeOccupied(newTile)) {
+				table.add(directions[i]);
+			}else if (game.getIlk(newTile) == Ilk.MY_ANT && moves.isAntsLocationFree(newTile)){
 				table.add(directions[i]);
 			}
 		}

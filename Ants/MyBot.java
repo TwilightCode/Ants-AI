@@ -10,9 +10,11 @@ public class MyBot extends Bot {
 	updateTable update;
 	unchartedTable uncharted;
 	Ants ants;
+	movementList moves;
 	private int antsSet;
 	private int turn;
 	private int help;
+	
 
 	/**
 	 * Main method executed by the game engine for starting the bot.
@@ -27,19 +29,10 @@ public class MyBot extends Bot {
 		new MyBot().readSystemInput();
 	}
 
-	
-	
-	public void updateState(){
-		help = turn % 5;
-		if (help == 0) {
-			uncharted.raiseUncharted();
-		}
-	}
-	
-	public void setNewAnt(Tile tile){
+	public void setNewAnt(Tile tile) {
 		uncharted.setViewArea(tile);
-		}
-	
+	}
+
 	/**
 	 * executes bots turn
 	 */
@@ -49,16 +42,18 @@ public class MyBot extends Bot {
 		help = 0;
 		Aim direction;
 		ants = getAnts();
+		moves = new movementList(ants);
 		update = new updateTable(ants.getViewRadius2());
-		uncharted = new unchartedTable(update, ants);
-		updateState();
+		uncharted = new unchartedTable(update, ants, moves);
+		moves.emptyMoveList();
 		for (Tile myAnt : ants.getMyAnts()) {
-			setNewAnt(myAnt);	
+			setNewAnt(myAnt);
 			direction = uncharted.getBestDirection(myAnt);
-			if(direction != null){
-			ants.issueOrder(myAnt, direction);
+			if (direction != null) {
+				moves.addMove(myAnt, direction);
+				ants.issueOrder(myAnt, direction);
 			}
 		}
 	}
-	
+
 }
