@@ -3,10 +3,17 @@ import java.util.ArrayList;
 import java.util.Random;
 
 /**
- * Starter bot implementation.
- * Some methods in this class have been added or modified. 
+ * Starter bot implementation. Some methods in this class have been added or
+ * modified.
  */
 public class MyBot extends Bot {
+	updateTable update;
+	unchartedTable uncharted;
+	Ants ants;
+	private int antsSet;
+	private int turn;
+	private int help;
+
 	/**
 	 * Main method executed by the game engine for starting the bot.
 	 * 
@@ -20,60 +27,38 @@ public class MyBot extends Bot {
 		new MyBot().readSystemInput();
 	}
 
+	
+	
+	public void updateState(){
+		help = turn % 5;
+		if (help == 0) {
+			uncharted.raiseUncharted();
+		}
+	}
+	
+	public void setNewAnt(Tile tile){
+		uncharted.setViewArea(tile);
+		}
+	
 	/**
-	 * executes bots turn   
+	 * executes bots turn
 	 */
 	@Override
 	public void doTurn() {
-		Ants ants = getAnts();
+		int antNumber = 0;
+		help = 0;
+		Aim direction;
+		ants = getAnts();
+		update = new updateTable(ants.getViewRadius2());
+		uncharted = new unchartedTable(update, ants);
+		updateState();
 		for (Tile myAnt : ants.getMyAnts()) {
-			ArrayList<Aim> table = movement(ants, myAnt);
-			if (!table.isEmpty()) {
-				Aim direction;
-				if (table.size() == 1) {
-					direction = table.get(0);
-				} else {
-					direction = getRandomDirection(table);
-				}
-				ants.issueOrder(myAnt, direction);
+			setNewAnt(myAnt);	
+			direction = uncharted.getBestDirection(myAnt);
+			if(direction != null){
+			ants.issueOrder(myAnt, direction);
 			}
 		}
 	}
-
-	/**
-	 * checks the directions in which ant can move.
-	 * 
-	 * @param ants contains the tools from the game.
-	 * @param myAnt contains the coordinates of the tile that's surroundings are to be evaluated.
-	 * @return table contains all the directions that the ant can move to.  
-	 */
 	
-	private ArrayList<Aim> movement(Ants ants, Tile myAnt) {
-		ArrayList<Aim> table = new ArrayList<Aim>();
-		if (ants.getIlk(myAnt, Aim.NORTH).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
-			table.add(Aim.NORTH);
-		}
-		if (ants.getIlk(myAnt, Aim.EAST).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
-			table.add(Aim.EAST);
-		}
-		if (ants.getIlk(myAnt, Aim.SOUTH).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
-			table.add(Aim.SOUTH);
-		}
-		if (ants.getIlk(myAnt, Aim.WEST).isPassable() && ants.getIlk(myAnt, Aim.EAST).isUnoccupied()) {
-			table.add(Aim.WEST);
-		}
-		return table;
-	}
-
-	/**
-	 *Picks a random direction
-	 *
-	 *@param table contains the directions from which one is to be chosen.
-	 *@return direction random direction chosen from the given table.  
-	 */
-
-	private Aim getRandomDirection(ArrayList<Aim> table) {
-		Random rand = new Random();
-		return table.get(rand.nextInt(table.size()));
-	}
 }
