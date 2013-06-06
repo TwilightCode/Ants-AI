@@ -12,10 +12,12 @@ public class unchartedTable {
 	/**
 	 * constructor
 	 * 
-	 * @param vision
-	 *            of the ant in a square format
-	 * @param gameField
-	 *            the game table
+	 * @param update
+	 *            contains and manages updateTables
+	 * @param game
+	 *            contains the game itself
+	 * @param moves
+	 *            contains order list from the current turn
 	 */
 	public unchartedTable(updateTable update, Ants game, movementList moves) {
 		this.game = game;
@@ -36,9 +38,6 @@ public class unchartedTable {
 
 	/**
 	 * initializes uncharted
-	 * 
-	 * @param gameField
-	 *            is the map of current game
 	 */
 	public void initializeUncharted() {
 		uncharted = new int[mapHeight][mapWidth];
@@ -49,6 +48,13 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * sets previously unknown tile of uncharted table to either as obstacle or
+	 * seen.
+	 * 
+	 * @param tile
+	 *            that is being updated
+	 */
 	public void setUnknownTile(Tile tile) {
 		Ilk type = game.getIlk(tile);
 		if (type == Ilk.WATER) {
@@ -58,6 +64,12 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * set uncharted table's tile to seen
+	 * 
+	 * @param tile
+	 *            that is being updated
+	 */
 	public void setToSeen(Tile tile) {
 		uncharted[tile.getRow()][tile.getCol()] = 0;
 	}
@@ -65,10 +77,8 @@ public class unchartedTable {
 	/**
 	 * establishes new view area
 	 * 
-	 * @param row
-	 *            x line
-	 * @param col
-	 *            y line
+	 * @param tile
+	 *            location of the ant
 	 */
 	public void setViewArea(Tile tile) {
 		int[][] easternLine = update.getEastTable();
@@ -89,9 +99,6 @@ public class unchartedTable {
 	/**
 	 * goes through uncharted and raises the value of areas that are unseen by
 	 * own ants
-	 * 
-	 * @param game
-	 *            contains the current game
 	 */
 	public void raiseUncharted() {
 		Tile tile;
@@ -105,6 +112,14 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * goes through all the available directions and return the one that is most
+	 * interesting to check
+	 * 
+	 * @param tile
+	 *            location of the ant
+	 * @return direction where ant will next move
+	 */
 	public Aim getBestDirection(Tile tile) {
 		int value;
 		int max = 0;
@@ -125,6 +140,13 @@ public class unchartedTable {
 		return direction;
 	}
 
+	/**
+	 * picks from two directions one and returns it
+	 * 
+	 * @param direction
+	 * @param otherDirection
+	 * @return one of the given directions
+	 */
 	public Aim getRandomDirection(Aim direction, Aim otherDirection) {
 		Random rand = new Random();
 		if (rand.nextInt(2) == 0) {
@@ -134,6 +156,17 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * sets new coordinates so that they are within the limits of the table
+	 * 
+	 * @param tile
+	 *            current location of the ant
+	 * @param borderX
+	 *            horizontal border of ants vision
+	 * @param borderY
+	 *            vertical border of ants vision
+	 * @return tile that contains location just outside the ants vision range
+	 */
 	public Tile setCoordinates(Tile tile, int borderX, int borderY) {
 		return new Tile(isOverBoard((tile.getRow() + borderY), mapHeight), isOverBoard((tile.getCol() + borderX), mapWidth));
 	}
@@ -142,10 +175,8 @@ public class unchartedTable {
 	 * counts how much ant would gain from moving to the direction given in
 	 * table
 	 * 
-	 * @param row
-	 *            x line
-	 * @param col
-	 *            y line
+	 * @param tile
+	 *            the current location of the ant
 	 * @param direction
 	 *            where ant would move
 	 * @return value is the amount gain from moving to this direction
@@ -161,6 +192,13 @@ public class unchartedTable {
 		return value;
 	}
 
+	/**
+	 * checks if tile is blocked
+	 * 
+	 * @param tile
+	 *            that is being checked
+	 * @return true if tile is blocked false if tile is free
+	 */
 	public boolean isTileBlocked(Tile tile) {
 		if (game.getIlk(tile) == Ilk.LAND || game.getIlk(tile) == Ilk.DEAD) {
 			return false;
@@ -169,6 +207,13 @@ public class unchartedTable {
 		}
 	}
 
+	/**
+	 * gets all the directions ant can move to
+	 * 
+	 * @param tile
+	 *            location of the ant
+	 * @return table containing all the possible directions ant can move to
+	 */
 	public ArrayList<Aim> getMovableDirections(Tile tile) {
 		Tile newTile;
 		ArrayList<Aim> table = new ArrayList<Aim>();
@@ -177,13 +222,22 @@ public class unchartedTable {
 			newTile = game.getTile(tile, directions[i]);
 			if (!isTileBlocked(newTile) && !moves.isToBeOccupied(newTile)) {
 				table.add(directions[i]);
-			}else if (game.getIlk(newTile) == Ilk.MY_ANT && moves.isAntsLocationFree(newTile)){
+			} else if (game.getIlk(newTile) == Ilk.MY_ANT && moves.isAntsLocationFree(newTile)) {
 				table.add(directions[i]);
 			}
 		}
 		return table;
 	}
 
+	/**
+	 * places the given value to be within borders
+	 * 
+	 * @param value
+	 *            given value
+	 * @param max
+	 *            is the limit of the given area
+	 * @return value that is within given borders
+	 */
 	public int isOverBoard(int value, int max) {
 		if (value >= max) {
 			return value - max;
@@ -197,14 +251,12 @@ public class unchartedTable {
 	/**
 	 * sets the new area covered by the view radius to zero.
 	 * 
-	 * @param row
-	 *            x line
-	 * @param col
-	 *            y line
+	 * @param tile
+	 *            location where ant use to be
 	 * @param direction
-	 *            where ant moves
+	 *            where ant moved to
 	 */
-		public void updateUnknown(Tile tile, Aim direction) {
+	public void updateUnknown(Tile tile, Aim direction) {
 		Tile newTile;
 		int[][] table = update.getUpdateTable(direction);
 		for (int i = 0; i < table.length; i++) {
@@ -216,5 +268,5 @@ public class unchartedTable {
 			}
 		}
 	}
-		
+
 }
