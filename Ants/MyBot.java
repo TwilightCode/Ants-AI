@@ -80,6 +80,7 @@ public class MyBot extends Bot {
 		uncharted = new unchartedTable(update, ants, moves);
 		updateState();
 		for (Tile myAnt : ants.getMyAnts()) {
+			count++;
 			setNewAnt(myAnt, count);
 			direction = uncharted.getBestDirection(myAnt);
 			if (direction != null) {

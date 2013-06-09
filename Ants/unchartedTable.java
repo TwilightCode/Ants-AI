@@ -121,7 +121,7 @@ public class unchartedTable {
 	 * @return direction where ant will next move
 	 */
 	public Aim getBestDirection(Tile tile) {
-		int value;
+		int value = 0;
 		int max = 0;
 		Aim direction = null;
 		ArrayList<Aim> directions = getMovableDirections(tile);
