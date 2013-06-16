@@ -1,15 +1,15 @@
-import java.util.ArrayList;
+
 
 public class foodList {
 	Ants game;
-	private ArrayList<toDoList> foodSearch;
+	private omaArrayList<toDoList> foodSearch;
 
 	public foodList(Ants game) {
 		this.game = game;
-		foodSearch = new ArrayList<toDoList>();
+		foodSearch = new omaArrayList<toDoList>();
 	}
 
-	public void addPath(Tile ant, Tile goal, ArrayList<Aim> path) {
+	public void addPath(Tile ant, Tile goal, omaArrayList<Aim> path) {
 		toDoList route = new toDoList(ant, goal, path);
 		foodSearch.add(route);
 	}

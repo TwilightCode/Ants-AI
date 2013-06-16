@@ -1,11 +1,11 @@
-import java.util.ArrayList;
+
 
 public class toDoList {
 	private Tile ant;
-	private ArrayList<Aim> path;
+	private omaArrayList<Aim> path;
 	private Tile goal;
 
-	public toDoList(Tile ant, Tile goal, ArrayList<Aim> path) {
+	public toDoList(Tile ant, Tile goal, omaArrayList<Aim> path) {
 		this.ant = ant;
 		this.goal = goal;
 		this.path = path;
@@ -15,7 +15,7 @@ public class toDoList {
 		this.ant = ant;
 	}
 
-	public void setPath(ArrayList<Aim> path) {
+	public void setPath(omaArrayList<Aim> path) {
 		this.path = path;
 	}
 
@@ -27,7 +27,7 @@ public class toDoList {
 		return ant;
 	}
 
-	public ArrayList<Aim> getPath() {
+	public omaArrayList<Aim> getPath() {
 		return path;
 	}
 

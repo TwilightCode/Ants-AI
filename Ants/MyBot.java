@@ -1,5 +1,5 @@
 import java.io.IOException;
-import java.util.ArrayList;
+
 
 import java.io.*;
 import java.util.*;
@@ -43,7 +43,7 @@ public class MyBot extends Bot {
 	 * checks if any of the ants have died during other players turns
 	 */
 	public void checkCasualties() {
-		ArrayList<movement> table;
+		omaArrayList<movement> table;
 		table = moves.getList();
 		for (int i = 0; i < table.size(); i++) {
 			if (ants.getIlk(table.get(i).getNewTile()) == Ilk.DEAD) {
@@ -56,7 +56,7 @@ public class MyBot extends Bot {
 	 * makes updates to game state
 	 */
 	public void updateState() {
-		ArrayList<movement> table;
+		omaArrayList<movement> table;
 		if (turn == 2) {
 			uncharted.raiseUncharted();
 			turn = 0;
@@ -73,7 +73,7 @@ public class MyBot extends Bot {
 	}
 
 	public void getFood() {
-		ArrayList<Aim> path = null;
+		omaArrayList<Aim> path = null;
 		Tile ant;
 		int[][] pathTable;
 		for (Tile food : ants.getFoodTiles()) {
@@ -115,7 +115,7 @@ public class MyBot extends Bot {
 		return pathTable;
 	}
 
-	public Tile findAnt(Tile start, ArrayList<Aim> path) {
+	public Tile findAnt(Tile start, omaArrayList<Aim> path) {
 		Tile newTile = start;
 		for (int i = path.size() - 1; i >= 0; i--) {
 			newTile = ants.getTile(newTile, path.get(i));
@@ -123,8 +123,8 @@ public class MyBot extends Bot {
 		return newTile;
 	}
 
-	public ArrayList<Aim> switchRouteAround(ArrayList<Aim> path) {
-		ArrayList<Aim> reverse = new ArrayList<Aim>();
+	public omaArrayList<Aim> switchRouteAround(omaArrayList<Aim> path) {
+		omaArrayList<Aim> reverse = new omaArrayList<Aim>();
 		for (int i = 0; i < path.size(); i++) {
 			Aim opposite = search.getOppositeDirection(path.get(i));
 			reverse.add(opposite);

@@ -1,3 +1,5 @@
+
+
 public class gameMap {
 	private Ilk[][] gameMap;
 	Ants game;
@@ -26,9 +28,9 @@ public class gameMap {
 	 * @param height
 	 *            of the map
 	 */
-	public void initializeMap(int withd, int height) {
+	public void initializeMap(int height, int width) {
 		for (int i = 0; i < height; i++) {
-			for (int j = 0; j < withd; j++) {
+			for (int j = 0; j < width; j++) {
 				gameMap[i][j] = Ilk.LAND;
 			}
 		}
@@ -76,8 +78,17 @@ public class gameMap {
 	 *            of tile
 	 */
 	public void setMapTile(int row, int col, Ilk type) {
+		if (gameMap[row][col] != Ilk.WATER){
 		gameMap[row][col] = type;
+		}
 	}
+	
+	public void moveAnt(int row, int col, Aim direction) {
+		Tile tile = new Tile(row,col);
+		setMapTile(tile.getRow(),tile.getCol(), Ilk.LAND);
+		tile = game.getTile(tile, direction);
+		setMapTile(tile.getRow(),tile.getCol(), Ilk.MY_ANT);
+		}
 
 	/**
 	 * checks all tiles in case they have own ant that could see the tile if
@@ -89,7 +100,7 @@ public class gameMap {
 	 *            x coordinate
 	 * @return true if tile is seen by own ant else false
 	 */
-	public boolean isSeen(int row, int col) {
+/*	public boolean isSeen(int row, int col) {
 		int[][] WestTable = update.getWestTable();
 		int[][] EastTable = update.getEastTable();
 		int width = 0;
@@ -107,7 +118,7 @@ public class gameMap {
 		}
 		return false;
 	}
-
+*/
 	/**
 	 * checks if value of vertical coordinate goes over the map and returns
 	 * value that is within the border
@@ -145,7 +156,18 @@ public class gameMap {
 			return value;
 		}
 	}
-
+/*
+	public Aim getOppositeDirection(Aim direction){
+		if (Aim.NORTH == direction){
+			return Aim.SOUTH;
+		}else if(Aim.EAST == direction){
+			return Aim.WEST;
+		}else if(Aim.SOUTH == direction){
+			return Aim.NORTH;
+		}else		
+			return Aim.EAST;
+	}
+	*/
 	/**
 	 * sets tiles in a map to land that are not seen from ants location and are
 	 * not seen by any other ant either.
@@ -155,14 +177,20 @@ public class gameMap {
 	 * @param col
 	 *            x coordinate
 	 * @param direction
-	 */
+	 */	
+	/*
 	public void clearUnseen(int row, int col, Aim direction) {
 		int height;
 		int width;
+		Tile tile = new Tile(row,col);
+		setMapTile(tile.getRow(),tile.getCol(),Ilk.LAND);
+		Tile newTile = game.getTile(tile, direction);
+		setMapTile(newTile.getRow(),newTile.getCol(),Ilk.MY_ANT);
+		direction = getOppositeDirection(direction);
 		int[][] table = update.getUpdateTable(direction);
 		for (int i = 0; i < table.length; i++) {
-			height = row + table[i][1];
-			width = col + table[i][0];
+			height = newTile.getRow() + table[i][1];
+			width = newTile.getCol() + table[i][0];
 			width = isWidthOverBoard(width);
 			height = isHeightOverBoard(height);
 			if (!isSeen(height, width)) {
@@ -172,5 +200,26 @@ public class gameMap {
 			}
 		}
 	}
+*/
+	public boolean isTileBlocked(int row, int col) {
+		if (getMapTile(row, col) == Ilk.LAND || getMapTile(row, col) == Ilk.DEAD || getMapTile(row, col) == Ilk.FOOD) {
+			return false;
+		} else {
+			return true;
+		}
+	}
 
+	public omaArrayList<Aim> getMovableDirections(int row, int col) {
+		omaArrayList<Aim> table = new omaArrayList<Aim>();
+		Aim[] directions = {Aim.NORTH, Aim.EAST, Aim.SOUTH, Aim.WEST};
+		Tile newTile;
+		Tile tile = new Tile(row, col);
+		for (int i = 0; i < directions.length; i++) {
+			newTile = game.getTile(tile, directions[i]);
+			if (!isTileBlocked(newTile.getRow(), newTile.getCol())) {
+				table.add(directions[i]);
+			}
+		}
+		return table;
+	}
 }

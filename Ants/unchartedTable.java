@@ -1,5 +1,3 @@
-
-import java.util.ArrayList;
 import java.util.Random;
 
 public class unchartedTable {
@@ -126,8 +124,8 @@ public class unchartedTable {
 	public Aim getBestDirection(Tile tile) {
 		int value = 0;
 		int max = -100;
-		ArrayList<Aim> helpTable = new ArrayList<Aim>();
-		ArrayList<Aim> directions = getMovableDirections(tile);
+		omaArrayList<Aim> helpTable = new omaArrayList<Aim>();
+		omaArrayList<Aim> directions = getMovableDirections(tile);
 		if (directions.size() == 0) {
 			return null;
 		}
@@ -135,7 +133,7 @@ public class unchartedTable {
 			value = getMoveValue(tile, directions.get(i));
 			if (max < value) {
 				max = value;
-				helpTable = new ArrayList<Aim>();
+				helpTable = new omaArrayList<Aim>();
 				helpTable.add(directions.get(i));
 			} else if (max == value) {
 				helpTable.add(directions.get(i));
@@ -155,7 +153,7 @@ public class unchartedTable {
 	 * @param otherDirection
 	 * @return one of the given directions
 	 */
-	public Aim getRandomDirection(ArrayList<Aim> table) {
+	public Aim getRandomDirection(omaArrayList<Aim> table) {
 		Random rand = new Random();
 		return table.get(rand.nextInt(table.size()));
 	}
@@ -218,9 +216,9 @@ public class unchartedTable {
 	 *            location of the ant
 	 * @return table containing all the possible directions ant can move to
 	 */
-	public ArrayList<Aim> getMovableDirections(Tile tile) {
+	public omaArrayList<Aim> getMovableDirections(Tile tile) {
 		Tile newTile;
-		ArrayList<Aim> table = new ArrayList<Aim>();
+		omaArrayList<Aim> table = new omaArrayList<Aim>();
 		Aim[] directions = { Aim.NORTH, Aim.EAST, Aim.SOUTH, Aim.WEST };
 		for (int i = 0; i < directions.length; i++) {
 			newTile = game.getTile(tile, directions[i]);

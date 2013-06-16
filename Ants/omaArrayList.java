@@ -1,12 +1,12 @@
-public class omaArrayList {
-	int[] table;
+public class omaArrayList<E> {
+	Object[] table;
 	int amount = 0;
 
-	public omaArrayList(int type) {
-		table = new int[10];
+	public omaArrayList() {
+		table = new Object[10];
 	}
 
-	public void add(int item) {
+	public void add(E item) {
 		if (amount == table.length) {
 			setSize();
 		}
@@ -25,18 +25,37 @@ public class omaArrayList {
 	}
 
 	public void setSize() {
-		int[] newTable = new int[(int) Math.pow(table.length, 2)];
+		Object[] newTable = new Object[(int) Math.pow(table.length, 2)];
 		for (int i = 0; i < table.length; i++) {
 			newTable[i] = table[i];
 		}
 		table = newTable;
 	}
 
-	public int get(int place) {
-		return table[place];
+	@SuppressWarnings("unchecked")
+	public E get(int place) {
+		return (E)table[place];
 	}
 
 	public int getSize() {
 		return amount;
+	}
+	
+	public int size() {
+		return getSize();
+	}
+	
+	public boolean isEmpty(){
+		if (amount == 0){
+			return true;
+		}else {
+			return false;
+		}
+	}
+	
+	public void clear(){
+		amount = 0;
+		table = new Object[10];
+		
 	}
 }

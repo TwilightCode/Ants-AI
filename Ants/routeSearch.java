@@ -1,4 +1,4 @@
-import java.util.ArrayList;
+
 
 public class routeSearch {
 
@@ -39,9 +39,9 @@ public class routeSearch {
 		return pathTable;
 	}
 
-	public ArrayList<Tile> getTilesOnOpenArea(Tile tile) {
+	public omaArrayList<Tile> getTilesOnOpenArea(Tile tile) {
 		Tile newTile;
-		ArrayList<Tile> promising = new ArrayList<Tile>();
+		omaArrayList<Tile> promising = new omaArrayList<Tile>();
 		for (int i = 0; i < searchTable.length; i++) {
 			int x = searchTable[i].getCol();
 			int y = searchTable[i].getRow();
@@ -103,9 +103,9 @@ public class routeSearch {
 		}
 	}
 
-	public ArrayList<Aim> getShortestRoute(Tile endPoint) {
+	public omaArrayList<Aim> getShortestRoute(Tile endPoint) {
 		int distance = pathTable[endPoint.getRow()][endPoint.getCol()];
-		ArrayList<Aim> path = new ArrayList<Aim>();
+		omaArrayList<Aim> path = new omaArrayList<Aim>();
 		Aim[] table = { Aim.NORTH, Aim.EAST, Aim.SOUTH, Aim.WEST };
 		Tile tile = endPoint;
 		Tile newTile;
@@ -125,7 +125,7 @@ public class routeSearch {
 	}
 
 
-	public ArrayList<Aim> initFoodSearch(int[][] pathTable) {
+	public omaArrayList<Aim> initFoodSearch(int[][] pathTable) {
 		this.pathTable = pathTable;
 		Tile tile = search();
 		if (tile == null) {
@@ -135,8 +135,8 @@ public class routeSearch {
 		}
 
 	public Tile search() {
-		ArrayList<Tile> layer = new ArrayList<Tile>();
-		ArrayList<Integer> distance2 = new ArrayList<Integer>();
+		omaArrayList<Tile> layer = new omaArrayList<Tile>();
+		omaArrayList<Integer> distance2 = new omaArrayList<Integer>();
 		Aim[] table = { Aim.NORTH, Aim.EAST, Aim.SOUTH, Aim.WEST };
 		int max = pathTable.length;
 		int distance = 1;

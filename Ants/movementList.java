@@ -1,7 +1,7 @@
-import java.util.ArrayList;
+
 
 public class movementList {
-	private ArrayList<movement> turnMoves;
+	private omaArrayList<movement> turnMoves;
 	Ants game;
 
 	/**
@@ -12,7 +12,7 @@ public class movementList {
 	 */
 	public movementList(Ants game) {
 		this.game = game;
-		turnMoves = new ArrayList<movement>();
+		turnMoves = new omaArrayList<movement>();
 	}
 
 	/**
@@ -38,7 +38,7 @@ public class movementList {
 	/**
 	 * @return list that contains turns movements
 	 */
-	public ArrayList<movement> getList() {
+	public omaArrayList<movement> getList() {
 		return turnMoves;
 	}
 
