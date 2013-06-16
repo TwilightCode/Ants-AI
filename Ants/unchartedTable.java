@@ -1,3 +1,4 @@
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -62,7 +63,7 @@ public class unchartedTable {
 		} else {
 			uncharted[tile.getRow()][tile.getCol()] = 0;
 		}
-	}
+		}
 
 	/**
 	 * set uncharted table's tile to seen
@@ -112,6 +113,8 @@ public class unchartedTable {
 		}
 	}
 
+	
+
 	/**
 	 * goes through all the available directions and return the one that is most
 	 * interesting to check
@@ -122,8 +125,8 @@ public class unchartedTable {
 	 */
 	public Aim getBestDirection(Tile tile) {
 		int value = 0;
-		int max = 0;
-		Aim direction = null;
+		int max = -100;
+		ArrayList<Aim> helpTable = new ArrayList<Aim>();
 		ArrayList<Aim> directions = getMovableDirections(tile);
 		if (directions.size() == 0) {
 			return null;
@@ -132,12 +135,17 @@ public class unchartedTable {
 			value = getMoveValue(tile, directions.get(i));
 			if (max < value) {
 				max = value;
-				direction = directions.get(i);
+				helpTable = new ArrayList<Aim>();
+				helpTable.add(directions.get(i));
 			} else if (max == value) {
-				direction = getRandomDirection(direction, directions.get(i));
+				helpTable.add(directions.get(i));
 			}
 		}
-		return direction;
+		if (helpTable.size() == 1) {
+			return helpTable.get(0);
+		} else {
+			return getRandomDirection(helpTable);
+		}
 	}
 
 	/**
@@ -147,13 +155,9 @@ public class unchartedTable {
 	 * @param otherDirection
 	 * @return one of the given directions
 	 */
-	public Aim getRandomDirection(Aim direction, Aim otherDirection) {
+	public Aim getRandomDirection(ArrayList<Aim> table) {
 		Random rand = new Random();
-		if (rand.nextInt(2) == 0) {
-			return direction;
-		} else {
-			return otherDirection;
-		}
+		return table.get(rand.nextInt(table.size()));
 	}
 
 	/**
@@ -268,5 +272,6 @@ public class unchartedTable {
 			}
 		}
 	}
+	
 
 }

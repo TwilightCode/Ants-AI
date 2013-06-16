@@ -68,6 +68,7 @@ public class movementList {
 	 *            location of the other ant
 	 * @return true if ant is about to move false otherwise
 	 */
+	
 	public boolean isAntsLocationFree(Tile tile) {
 		movement move;
 		for (int i = 0; i < turnMoves.size(); i++) {
